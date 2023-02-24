@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-app
+  labels:
+    app: blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: blue
+  template:
+    metadata:
+      labels:
+        app: blue
+    spec:
+      containers:
+      - name: blue-app
+        image: "hashicorp/http-echo"
+        args: ["-listen=:8080","-text='I am blue'"]
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-app
+  labels:
+    app: green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: green
+  template:
+    metadata:
+      labels:
+        app: green
+    spec:
+      containers:
+      - name: green-app
+        image: "hashicorp/http-echo"
+        args: ["-listen=:8081","-text='I am green'"]
+        ports:
+        - containerPort: 8081
